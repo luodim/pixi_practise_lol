@@ -1,0 +1,49 @@
+// http://css3.bradshawenterprises.com/cfimg/#cfimg3
+@mixin cross-fade($count, $displayTime: 1s, $transitionTime: .5s) {
+  $time: $displayTime + $transitionTime;
+  $totalTime: $time * $count;
+
+  $name: unique-id();
+  @keyframes #{$name} {
+    // 0% {
+    //   opacity: 1;
+    // }
+    // #{percentage($displayTime/$totalTime)} {
+    //   opacity: 1;
+    // }
+    // #{percentage(1/$count)} {
+    //   opacity: 0;
+    // }
+    // #{percentage(1 - $transitionTime/$totalTime)} {
+    //   opacity: 0;
+    // }
+    // 100% {
+    //   opacity: 1;
+    // }
+    0% {
+      opacity: 0;
+    }
+    #{percentage($transitionTime/$totalTime)} {
+      opacity: 1;
+    }
+    #{percentage(1/$count)} {
+      opacity: 1;
+    }
+    #{percentage(1/$count + $transitionTime/$totalTime)} {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  animation: $name ease-in-out infinite $totalTime;
+  &:nth-of-type(n+2) {
+    opacity: 0;
+  }
+  @for $i from 1 through $count {
+    &:nth-of-type(#{$i}) {
+      animation-delay: ($i - 1)*$time;
+    }
+  }
+}

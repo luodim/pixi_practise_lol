@@ -1,0 +1,74 @@
+body {
+  margin:0;
+  padding:0;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: url(./assets/bg_loading.jpg);
+}
+
+.progress {
+  position: absolute;
+  width: 100%;
+  top: 60%;
+  text-align: center;
+  color: blue;
+  font-size: 1em;
+  & p {// 为什么padding margin写在父类没效？
+  	color: red;
+  	padding:0;
+    margin:0;
+  }
+  & #enter_btn {//为什么没有继承？
+  	width: 150px;
+  	height: 60px;
+  	background-color: gray;
+  }
+}
+
+#aa {
+  position: absolute;
+  left: 0px;
+  width: 80px;
+  margin-left: 40%;
+  bottom: 50%;
+  animation: rotation-cw 1.5s linear infinite;
+}
+
+#bb {
+  position: absolute;
+  right: 0px;
+  width: 120px;
+  margin-right: 40%;
+  bottom: 50%;
+  animation: rotation-ccw 1.5s linear infinite;
+}
+
+#cc {
+  position: absolute;
+  width:100px;
+  top: 50%;
+  left: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+  display: block;
+  animation: shake 1s ease-in-out infinite alternate;
+}
+
+@keyframes shake {
+  from {transform: rotate(-45deg);}
+  to {transform: rotate(45deg);}
+}
+
+@keyframes rotation-cw {
+  from {transform: rotate(0deg);transform: skew(0deg)}
+  to {transform: rotate(360deg);transform: skew(-360deg)}
+}
+
+@keyframes rotation-ccw {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(-360deg);}
+}

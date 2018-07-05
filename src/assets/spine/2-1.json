@@ -1,0 +1,91 @@
+{
+"skeleton": { "hash": "Xqwtt1n8g0+TzP5etD7k03kUGAM", "spine": "3.6.52", "width": 1195, "height": 1078, "images": "./images/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Base", "parent": "root", "x": 797.05, "y": -1398.65 },
+	{ "name": "Body", "parent": "Base", "length": 449.59, "rotation": 92.08, "x": 32.68, "y": 187.89 },
+	{ "name": "Up", "parent": "Body", "length": 404.08, "rotation": -7.99, "x": 415.44, "y": 6.19 },
+	{ "name": "Head", "parent": "Up", "length": 184.36, "rotation": 0.84, "x": 193.37, "y": 2.14 },
+	{ "name": "hand_L", "parent": "Up", "length": 220.68, "rotation": -9.85, "x": -16.03, "y": 171.31 },
+	{ "name": "hand_R", "parent": "Up", "length": 209.95, "rotation": 15.61, "x": 36.64, "y": -179.12 }
+],
+"slots": [
+	{ "name": "yz", "bone": "Base", "attachment": "yz" },
+	{ "name": "body", "bone": "Body", "attachment": "body" },
+	{ "name": "element", "bone": "Base", "attachment": "element" },
+	{ "name": "head", "bone": "Head", "attachment": "head" },
+	{ "name": "hand_R", "bone": "hand_R", "attachment": "hand_R" },
+	{ "name": "hand_L", "bone": "hand_L", "attachment": "hand_L" }
+],
+"skins": {
+	"default": {},
+	"2-1": {
+		"body": {
+			"body": { "name": "2-1/body", "x": 324.4, "y": -2.06, "rotation": -92.08, "width": 448, "height": 649 }
+		},
+		"element": {
+			"element": { "name": "2-1/element", "x": 30.45, "y": 454.15, "width": 795, "height": 475 }
+		},
+		"hand_L": {
+			"hand_L": {
+				"name": "2-1/hand_L",
+				"type": "mesh",
+				"uvs": [ 0.39948, 0.01548, 0.09676, 0.63484, 0, 0.81713, 0.09261, 0.97307, 0.17555, 1, 0.54047, 1, 0.94272, 0.72928, 1, 0.3032, 1, 0, 0.40777, 0 ],
+				"triangles": [ 9, 8, 7, 7, 0, 9, 6, 0, 7, 1, 0, 6, 4, 3, 2, 1, 4, 2, 1, 5, 4, 6, 5, 1 ],
+				"vertices": [ 252.25, 48.57, 79.55, 44.84, 28.42, 44.79, -8.5, 20.62, -12.28, 7.23, 1.88, -43, 87.85, -78.51, 200.79, -55.17, 279.58, -32.95, 256.59, 48.56 ],
+				"hull": 10,
+				"edges": [ 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14, 16, 16, 18, 0, 18 ],
+				"width": 143,
+				"height": 270
+			}
+		},
+		"hand_R": {
+			"hand_R": { "name": "2-1/hand_R", "x": 114.96, "y": 3.05, "rotation": -99.71, "width": 138, "height": 268 }
+		},
+		"head": {
+			"head": { "name": "2-1/head", "x": 49.94, "y": -22.46, "rotation": -84.93, "width": 754, "height": 469 }
+		},
+		"yz": {
+			"yz": { "name": "2-1/yz", "x": 22.45, "y": 430.65, "width": 1195, "height": 862 }
+		}
+	}
+},
+"animations": {
+	"2-1": {
+		"bones": {
+			"Head": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.5, "angle": 4.18 },
+					{ "time": 1, "angle": 0 },
+					{ "time": 1.5, "angle": -1.98 },
+					{ "time": 2, "angle": 0 }
+				]
+			},
+			"hand_L": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0, "curve": "stepped" },
+					{ "time": 2, "angle": 0 }
+				]
+			},
+			"hand_R": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0, "curve": "stepped" },
+					{ "time": 2, "angle": 0 }
+				]
+			},
+			"Up": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.5, "angle": 3.45 },
+					{ "time": 1, "angle": 0 },
+					{ "time": 1.5, "angle": -3.26 },
+					{ "time": 2, "angle": 0 }
+				]
+			}
+		}
+	}
+}
+}

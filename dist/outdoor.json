@@ -1,0 +1,65 @@
+{
+"skeleton": { "hash": "DuzTAyXDk3Q3DDJtZgNCdELzQIo", "spine": "3.6.52", "width": 1502, "height": 2414, "images": "./images/" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "bone", "parent": "root", "length": 153.2, "rotation": 91.04, "x": 1358.19, "y": -676.14 },
+	{ "name": "bone2", "parent": "bone", "length": 133.71, "rotation": 0.15, "x": 167.53, "y": 481.62 },
+	{ "name": "bone3", "parent": "bone2", "length": 94.73, "rotation": 0.49, "x": -188, "y": 201.69 }
+],
+"slots": [
+	{ "name": "BG_A", "bone": "root", "attachment": "BG_A" },
+	{ "name": "Light_02", "bone": "bone2", "attachment": "Light_02", "blend": "screen" },
+	{ "name": "Light_03", "bone": "bone3", "attachment": "Light_03", "blend": "screen" },
+	{ "name": "Lantern_Light", "bone": "bone", "attachment": "Lantern_Light", "blend": "additive" },
+	{ "name": "BG_B", "bone": "root", "attachment": "BG_B" }
+],
+"skins": {
+	"default": {},
+	"outdoor": {
+		"BG_A": {
+			"BG_A": { "name": "Sc_01/BG_A", "x": 750, "y": -1206, "width": 1502, "height": 2414 }
+		},
+		"BG_B": {
+			"BG_B": { "name": "Sc_01/BG_B", "x": 783.5, "y": -1427, "width": 1297, "height": 1972 }
+		},
+		"Lantern_Light": {
+			"Lantern_Light": { "name": "Sc_01/Lantern_Light", "x": 78.33, "y": 9.76, "rotation": -91.04, "width": 240, "height": 240 }
+		},
+		"Light_02": {
+			"Light_02": { "name": "Sc_01/Light_02", "x": 64.13, "y": 10.76, "rotation": -91.19, "width": 229, "height": 191 }
+		},
+		"Light_03": {
+			"Light_03": { "name": "Sc_01/Light_03", "x": 34.83, "y": -8.17, "rotation": -91.68, "width": 86, "height": 89 }
+		}
+	}
+},
+"animations": {
+	"outdoor": {
+		"slots": {
+			"Lantern_Light": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 1, "color": "ffffff3b" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"Light_02": {
+				"color": [
+					{ "time": 0, "color": "ffffff13" },
+					{ "time": 0.6667, "color": "ffffff71" },
+					{ "time": 1.6667, "color": "ffffff00" },
+					{ "time": 2, "color": "ffffff13" }
+				]
+			},
+			"Light_03": {
+				"color": [
+					{ "time": 0, "color": "ffffff23" },
+					{ "time": 0.6, "color": "ffffff00" },
+					{ "time": 1.6, "color": "ffffff64" },
+					{ "time": 2, "color": "ffffff23" }
+				]
+			}
+		}
+	}
+}
+}

@@ -1,0 +1,21 @@
+// TODO multiple? animation: fade 1s, visible 1s step-end
+@mixin ani($args...) {
+  $name: unique-id();
+  @keyframes #{$name} {
+    @content;
+  }
+  animation: $name $args;
+}
+
+// example
+// div {
+//   @include ani(1s ease infinite) {
+//     100% {
+//       left: 0;
+//     }
+//   }
+// }
+
+// animation refer
+// http://animista.net/
+// https://daneden.github.io/animate.css/

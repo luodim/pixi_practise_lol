@@ -1,0 +1,10 @@
+$font-size-root: 16px !default;
+$enable-rem: true !default;
+
+@function rem($px) {
+  @if $enable-rem {
+    @return $px / $font-size-root * 1rem;
+  } @else {
+    @return $px * 1px;
+  }
+}

@@ -1,0 +1,12 @@
+@mixin image($image, $verticl-align: true) {
+  $info: imageSize($image);
+  width: nth($info, 1)*.5px;
+  height: nth($info, 2)*.5px;
+  margin-left: nth($info, 1)*-.25px;
+  @if $verticl-align {
+    margin-top: nth($info, 2)*-.25px;
+  }
+  background-image: url($image);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
