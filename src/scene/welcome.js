@@ -1,5 +1,6 @@
 import {application, loader, res, sprite, TextureCache, preload, getRes} from '../preload.js'
-import {dw, dh, position} from '../size-ctrl.js'
+import {dw, dh} from '../size-ctrl.js'
+import Helper from '../helper.js'
 import { tween, chain, delay, easing } from 'popmotion'
 
 export default class Welcome extends PIXI.Container {
@@ -19,17 +20,20 @@ export default class Welcome extends PIXI.Container {
 
       this.addChild(kitchen, grandpa, scene)
 
-      setTimeout(() => {
-      	this.showDialog()
-      }, 1000)
+      this.showDialog()
+      // setTimeout(() => {
+      // 	this.showDialog()
+      // }, 1000)
+      console.log('welcome construct is finished')
 	}
 
     // popup dialog to remind
 	showDialog() {
 	  this.dialog = new PIXI.Sprite(getRes('dialog_bg').texture)
-	  position.toCenterHorizatial(this.dialog).toBottom(this.dialog)
-      this.addText(0)
-      this.addChild(this.dialog)
+    this.addText(0)
+    this.addChild(this.dialog)
+    // Helper.setScale(2, this.dialog)
+	  Helper.toCenterHorizatial(dw, this.dialog).toBottom(dh, this.dialog)
 	}
 
     // add text content by id

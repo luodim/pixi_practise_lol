@@ -2,8 +2,9 @@
  * entry.js is the module for the scene of entry
  */
 import {application, loader, res, sprite, TextureCache, preload, getRes} from '../preload.js'
-import {dw, dh, position} from '../size-ctrl.js'
+import {dw, dh} from '../size-ctrl.js'
 import { tween, chain, delay, easing } from 'popmotion'
+import Helper from '../helper.js'
 
 export default class Entry extends PIXI.Container {
  	constructor() {
@@ -12,17 +13,18 @@ export default class Entry extends PIXI.Container {
       outdoor.skeleton.setSkin(null)
       outdoor.skeleton.setSkinByName('outdoor')
 
-      position.setScale(0.5, outdoor)
+      Helper.setScale(0.5, outdoor)
       this.addChild(outdoor)
 
       const peopleA = new PIXI.Sprite(getRes('p1').texture)
       const peopleB = new PIXI.Sprite(getRes('p2').texture)
-      position.toRight(peopleA).toBottom(peopleA, peopleB)
+      Helper.toRight(dw, peopleA).toBottom(dh, peopleA, peopleB)
       peopleB.x = dw - peopleA.width - peopleB.width + 60
       this.addChild(peopleB, peopleA)
 
       // test code will be changed late
       setTimeout(() => {this.showDialog(0)}, 500)
+      console.log('entry construct is finished')
  	}
 
   // display the dialog by id
@@ -77,7 +79,7 @@ export default class Entry extends PIXI.Container {
       })
 
       container.addChild(door_side, door, border)
-      position.toCenter(container)
+      Helper.toCenter(dw, dh, container)
       this.addChild(container)
     }
 

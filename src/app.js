@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import 'pixi-spine'
 import * as popmotion from 'popmotion'
-import {scale, dw, dh, spriteSizeCtrl, containerAdjust} from './size-ctrl.js'
+import {scale, dw, dh, canvasSizeControl, containerSizeControl} from './size-ctrl.js'
 import 'app.scss'
 import {preload, getRes, application, loader, res, sprite, TextureCache} from './preload.js'
 import Entry from './scene/entry.js'
@@ -11,11 +11,11 @@ import Cook from './scene/cook.js'
 import Final from './scene/final.js'
 
 // scence change
-const SCENCE_ENTRY = 1
-const SCENCE_WELCOME = 2
-const SCENCE_MENU = 3
-const SCENCE_COOK = 4
-const SCENCE_FINAL = 5
+const SCENCE_ENTRY = 1   // 居酒屋外场景
+const SCENCE_WELCOME = 2 // 居酒屋进入后欢迎场景
+const SCENCE_MENU = 3    // 点菜场景
+const SCENCE_COOK = 4    // 做菜场景
+const SCENCE_FINAL = 5   // 最终菜品呈现场景
 
 // init application
 let app = new application(
@@ -40,10 +40,8 @@ const enterBtn = document.getElementById('enter_btn')
 // set button icon invisible
 enterBtn.style.visibility = 'hidden'
 
-// set resize listener
-window.addEventListener('resize', stageDimensionCtrl)
-
-stageDimensionCtrl()
+window.addEventListener('resize', handleResize)
+canvasSizeControl(app)
 
 // load image convert it into texture
 loader.onProgress.add(loadProgressHandler)
@@ -72,10 +70,14 @@ function switchScence(scence) {
       break
   }
   app.stage.addChild(curScence)
-  containerAdjust(curScence)
+  containerSizeControl(app)
 }
 
-// enter Entry scence
+function handleResize() {
+  canvasSizeControl(app)
+  containerSizeControl(app)
+}
+
 function toEntry() {
   curScence = new Entry().on('change', () => {
   	console.log('switch to welcome scence')
@@ -86,10 +88,10 @@ function toEntry() {
 function toWelcome() {
   curScence = new Welcome().on('change', () => {
   	console.log('switch to menu')
-  	// switchScence(SCENCE_MENU)
+  	switchScence(SCENCE_MENU)
   })
 }
-// enter menu scence
+
 function toMenu() {
   curScence = new Menu().on('change', () => {
   	console.log('switch to cook scence')
@@ -97,7 +99,6 @@ function toMenu() {
   })
 }
 
-// enter cook scence
 function toCook() {
   curScence = new Cook().on('change', () => {
   	console.log('switch to final scence')
@@ -105,26 +106,12 @@ function toCook() {
   })
 }
 
-// enter final scence
 function toFinal() {
   curScence = new Final()
 }
 
-/*
-* after loader finish loading task, call this function to create a sprite,
-* then call size ctrl function to calculate the suitable size, finally,
-* display the sprite on the canvas
-*/
-function setRes() {
-  // let m = new sprite(getRes('meat').texture)
-  // app.stage.addChild(m)
-  // spriteSizeCtrl(m, 500, 400)
-}
 
-//adjust the canvas dimesion when resize event is called
-function stageDimensionCtrl() {
-  app.renderer.resize(window.innerWidth, window.innerHeight);
-  containerAdjust(curScence)
+function setRes() {
 }
 
 // load progress listener

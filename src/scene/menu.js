@@ -3,7 +3,8 @@
  */
 import * as PIXI from 'pixi.js'
 import {application, loader, res, sprite, TextureCache, preload, getRes} from '../preload.js'
-import {position, dw, dh} from '../size-ctrl.js'
+import {dw, dh, containerSizeControl} from '../size-ctrl.js'
+import Helper from '../helper.js'
 import { tween, easing } from 'popmotion'
 
 export default class Menu extends PIXI.Container {
@@ -14,8 +15,9 @@ export default class Menu extends PIXI.Container {
       const dishSmall = new PIXI.Sprite(getRes('dish_sm').texture)
       const dishBig = new PIXI.Sprite(getRes('dish').texture)
 
-      position.setScale(1.2, placemat)
-      position.setScale(0.5, dishSmall, dishBig)
+      Helper.setScale(1.2, placemat)
+      Helper.setScale(0.5, dishSmall, dishBig)
+      Helper.setScale(1, menuBg)
 
       const dishContainer = new PIXI.Container()
       dishContainer.addChild(placemat, dishSmall, dishBig)
@@ -29,12 +31,12 @@ export default class Menu extends PIXI.Container {
       this.addTips()
       this.addArrow()
       this.addConveyor()
+      console.log('menu construct is finished')
     }
 
     // add arrow element and define arrow animation
     addArrow() {
       const arrow = new PIXI.Sprite(getRes('hint_arrow').texture)
-      // const arrowStyler = styler(arrow)
       arrow.anchor.y = 1
       arrow.scale.y *= -1
       arrow.y = 800
@@ -69,7 +71,7 @@ export default class Menu extends PIXI.Container {
       }
 
       const tips = new PIXI.Text('请选择一种食材', style)
-      position.toCenterHorizatial(tips)
+      Helper.toCenterHorizatial(dw, tips)
       tips.y = 900
       this.addChild(tips)
     }
@@ -82,7 +84,7 @@ export default class Menu extends PIXI.Container {
       const item4 = new ConveyorView(4)
       const item5 = new ConveyorView(5)
 
-      position.setScale(0.5, item1, item2, item3, item4, item5)
+      // Helper.setScale(0.5, item1, item2, item3, item4, item5)
       this.setOffset(true, item1.width, item1, item2, item3, item4, item5)
       this.addChild(item1, item2, item3, item4, item5)
     }
