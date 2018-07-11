@@ -5,7 +5,7 @@ import * as PIXI from 'pixi.js'
 import {application, loader, res, sprite, TextureCache, preload, getRes} from '../preload.js'
 import {dw, dh, containerSizeControl} from '../size-ctrl.js'
 import Helper from '../helper.js'
-import { tween, easing } from 'popmotion'
+import { tween, timeline, easing } from 'popmotion'
 
 export default class Menu extends PIXI.Container {
  	constructor() {
@@ -31,7 +31,6 @@ export default class Menu extends PIXI.Container {
       this.addTips()
       this.addArrow()
       this.addConveyor()
-      console.log('menu construct is finished')
     }
 
     // add arrow element and define arrow animation
@@ -78,15 +77,46 @@ export default class Menu extends PIXI.Container {
 
     // add conveyor, set conveyor animation
     addConveyor() {
+      let conveyorContainer = new PIXI.Container()
       const item1 = new ConveyorView(1)
       const item2 = new ConveyorView(2)
       const item3 = new ConveyorView(3)
       const item4 = new ConveyorView(4)
       const item5 = new ConveyorView(5)
 
-      // Helper.setScale(0.5, item1, item2, item3, item4, item5)
+      this.addClickListener(item1, item2, item3, item4, item5)
+      Helper.setScale(0.5, item1, item2, item3, item4, item5)
+      Helper.toBottom(dh, item1, item2, item3, item4, item5)
       this.setOffset(true, item1.width, item1, item2, item3, item4, item5)
-      this.addChild(item1, item2, item3, item4, item5)
+      conveyorContainer.addChild(item1, item2, item3, item4, item5)
+      this.addChild(conveyorContainer)
+
+      const itemWidth = 250
+      timeline([{track: 'x', from: itemWidth * 5, to: 0, duration: 5000, ease: easing.linear}], 
+        {loop: Infinity, ease: easing.linear})
+      .start((v) => {
+        item1.x = this.itemMoveCalculate(1, v, itemWidth)
+        item2.x = this.itemMoveCalculate(2, v, itemWidth)
+        item3.x = this.itemMoveCalculate(3, v, itemWidth)
+        item4.x = this.itemMoveCalculate(4, v, itemWidth)
+        item5.x = this.itemMoveCalculate(5, v, itemWidth)
+      })
+    }
+
+    addClickListener(...sprites) {
+      for (let i = 0; i < sprites.length; i++) {
+        sprites[i].interactive = true
+        sprites[i].on('pointerup', () => {
+          console.log('click---')
+          alert(`current click is ${i+1}`)
+        })
+      }
+    }
+
+    itemMoveCalculate(id, v, itemWidth) {
+      let posX = v.x - itemWidth * (5 - (id - 1))
+      if (posX < (-itemWidth)) posX = v.x + (id - 1) * itemWidth
+      return posX
     }
 
     // set offset for view array
