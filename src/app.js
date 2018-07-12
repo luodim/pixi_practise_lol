@@ -125,7 +125,7 @@ function loadCompleteHandler() {
   enterBtn.addEventListener('click', (evt) => {
     loading.style.display = 'none'
     document.body.appendChild(app.view)
-    switchScence(SCENCE_MENU)
+    switchScence(SCENCE_COOK)
   })
 }
 

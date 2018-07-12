@@ -44,6 +44,7 @@ export default class Menu extends PIXI.Container {
     }
 
     addSauce() {
+      this.sauceNames = ['drop_yellow', 'drop_red', 'drop_blue', 'drop_green']
       const container = new PIXI.Container()
       const plate = new PIXI.Sprite(getRes('sauce_bedplate').texture)
       const shadow = new PIXI.Sprite(getRes('sauce_shadow').texture)
@@ -73,17 +74,35 @@ export default class Menu extends PIXI.Container {
       green.pivot.set(150, 150)
       container.y = -container.height
 
-      // this.addSauceClickListener(yellow, red, blue, green)
+      this.addSauceClickListener(yellow, red, blue, green)
       return container
     }
 
-    // addSauceClickListener(...sprites) {
-    //   for (let i = 0; i < sprites.length; i++) {
-    //     sprites[i].on('pointerup', () => {
-    //       this.
-    //     })
-    //   }
-    // }
+    addSauceClickListener(...sprites) {
+      for (let i = 0; i < sprites.length; i++) {
+        sprites[i].interactive = true
+        sprites[i].on('pointerup', () => {
+          this.sauceDish.removeChild(this.curSauce)
+          this.curSauce = new PIXI.Sprite(getRes(this.sauceNames[i]).texture)
+          this.curSauce.x = 80
+          this.curSauce.y = 80
+          this.sauceDish.addChild(this.curSauce)
+          this.showBtn()
+        })
+      }
+    }
+
+    showBtn() {
+      if (this.btn) return
+      this.btn = new PIXI.Sprite(getRes('btn_select').texture)
+      Helper.toCenterHorizatial(dw, this.btn)
+      Helper.toBottom(dh, this.btn)
+      this.addChild(this.btn)
+      this.btn.interactive = true
+      this.btn.on('pointerup', () => {
+        this.emit('change')
+      })
+    }
 
     // add arrow element and define arrow animation
     addArrow() {
@@ -143,7 +162,7 @@ export default class Menu extends PIXI.Container {
         let item = new ConveyorView(i + 1)
         this.itemArray.push(item)
         Helper.setScale(0.5, item)
-        Helper.toBottom(dh, item)
+        Helper.toBottom(dh-100, item)
         item.x = item.width * i
         conveyorContainer.addChild(item)
 
