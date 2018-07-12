@@ -101,6 +101,11 @@ import taste_index from './assets/taste_index.png'
 import outdoor from './assets/spine/outdoor.json'
 import grandpa from './assets/spine/grandpa.json'
 import scene from './assets/spine/scene.json'
+import spine_fish from './assets/spine/1-1_1-2.json'
+import spine_beaf from './assets/spine/2-1.json'
+import spine_frog from './assets/spine/3-1_3-2.json'
+import spine_mashroom from './assets/spine/4-1_4-2_4-3.json'
+import spine_spider from './assets/spine/5-1.json'
 
 const resources = {
   meat, meat2, meat3, beaf, beaf2, beaf3, frog, frog2, frog3, mashroom, mashroom2, mashroom3, spider, spider2, spider3,
@@ -130,6 +135,11 @@ export const preload = () => {
   loader.add('outdoor', outdoor, { metadata: { spineAtlasSuffix: '.conf' }})
   loader.add('grandpa', grandpa, { metadata: { spineAtlasSuffix: '.conf' }})
   loader.add('scene', scene, { metadata: { spineAtlasSuffix: '.conf' }})
+  loader.add('spine_fish', spine_fish, { metadata: { spineAtlasSuffix: '.conf' }})
+  loader.add('spine_beaf', spine_beaf, { metadata: { spineAtlasSuffix: '.conf' }})
+  loader.add('spine_frog', spine_frog, { metadata: { spineAtlasSuffix: '.conf' }})
+  loader.add('spine_mashroom', spine_mashroom, { metadata: { spineAtlasSuffix: '.conf' }})
+  loader.add('spine_spider', spine_spider, { metadata: { spineAtlasSuffix: '.conf' }})
   return loader
 }
 

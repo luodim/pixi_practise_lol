@@ -9,14 +9,10 @@ export default class Welcome extends PIXI.Container {
       const kitchen = new PIXI.Sprite(getRes('kitchen_b').texture)
 
       const scene = new PIXI.spine.Spine(getRes('scene').spineData)
-      scene.state.setAnimation(0, 'scene', true);
-      scene.skeleton.setSkin(null)
-      scene.skeleton.setSkinByName('scene')
+      Helper.setSkeleton('scene', scene)
 
       const grandpa = new PIXI.spine.Spine(getRes('grandpa').spineData)
-      grandpa.state.setAnimation(0, 'grandpa', true);
-      grandpa.skeleton.setSkin(null)
-      grandpa.skeleton.setSkinByName('grandpa')
+      Helper.setSkeleton('grandpa', grandpa)
 
       this.addChild(kitchen, grandpa, scene)
 
@@ -32,7 +28,6 @@ export default class Welcome extends PIXI.Container {
 	  this.dialog = new PIXI.Sprite(getRes('dialog_bg').texture)
     this.addText(0)
     this.addChild(this.dialog)
-    // Helper.setScale(2, this.dialog)
 	  Helper.toCenterHorizatial(dw, this.dialog).toBottom(dh, this.dialog)
 	}
 

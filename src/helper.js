@@ -66,4 +66,12 @@ export default class Helper {
       v.scale.set(scale)
     }
   }
+
+  static setSkeleton(name, ...spines) {
+    for (let spine of spines) {
+      spine.state.setAnimation(0, name, true);
+      spine.skeleton.setSkin(null)
+      spine.skeleton.setSkinByName(name)
+    }
+  }
 }

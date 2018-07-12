@@ -5,46 +5,105 @@ import * as PIXI from 'pixi.js'
 import {application, loader, res, sprite, TextureCache, preload, getRes} from '../preload.js'
 import {dw, dh, containerSizeControl} from '../size-ctrl.js'
 import Helper from '../helper.js'
-import { tween, timeline, easing } from 'popmotion'
+import { tween, timeline, easing, spring } from 'popmotion'
 
 export default class Menu extends PIXI.Container {
  	constructor() {
  	  super()
       const menuBg = new PIXI.Sprite(getRes('bg_menu').texture)
+      this.plate = this.addSauce()
+      this.dishContainer = this.addDish()
+
+      this.itemArray = new Array()
+      this.isShow = false
+
+      this.addChild(menuBg, this.plate, this.dishContainer)
+      this.addTips()
+      this.addArrow()
+      this.addConveyor()
+    }
+
+    addDish() {
+      const container = new PIXI.Container()
       const placemat = new PIXI.Sprite(getRes('placemat').texture)
       const dishSmall = new PIXI.Sprite(getRes('dish_sm').texture)
       const dishBig = new PIXI.Sprite(getRes('dish').texture)
 
       Helper.setScale(1.2, placemat)
       Helper.setScale(0.5, dishSmall, dishBig)
-      Helper.setScale(1, menuBg)
 
-      const dishContainer = new PIXI.Container()
-      dishContainer.addChild(placemat, dishSmall, dishBig)
       dishSmall.x = -45
       dishSmall.y = 350
       dishBig.x = 52
-      dishContainer.x = 50
-      dishContainer.y = 300
-
-      this.addChild(menuBg, dishContainer)
-      this.addTips()
-      this.addArrow()
-      this.addConveyor()
+      container.x = 50
+      container.y = 300
+      container.addChild(placemat, dishSmall, dishBig)
+      this.curMaterial = dishBig
+      this.sauceDish = dishSmall
+      return container
     }
+
+    addSauce() {
+      const container = new PIXI.Container()
+      const plate = new PIXI.Sprite(getRes('sauce_bedplate').texture)
+      const shadow = new PIXI.Sprite(getRes('sauce_shadow').texture)
+      const yellow = new PIXI.Sprite(getRes('sauce_yellow').texture)
+      const red = new PIXI.Sprite(getRes('sauce_red').texture)
+      const blue = new PIXI.Sprite(getRes('sauce_blue').texture)
+      const green = new PIXI.Sprite(getRes('sauce_green').texture)
+
+      this.ye = yellow
+      this.bl = blue
+      this.gr = green
+
+      Helper.setScale(0.5, plate)
+      Helper.setScale(0.5, shadow, yellow, red, blue, green)
+
+      container.addChild(plate, shadow, yellow, red, blue, green)
+      shadow.y = 130
+      yellow.x = 50 + 80
+      yellow.y = 80
+      red.x = 200
+      blue.x = 380 + 50
+      blue.y = 50
+      green.x = 500 + 80
+      green.y = 80
+      yellow.pivot.set(150, 150)
+      blue.pivot.set(150, 150)
+      green.pivot.set(150, 150)
+      container.y = -container.height
+
+      // this.addSauceClickListener(yellow, red, blue, green)
+      return container
+    }
+
+    // addSauceClickListener(...sprites) {
+    //   for (let i = 0; i < sprites.length; i++) {
+    //     sprites[i].on('pointerup', () => {
+    //       this.
+    //     })
+    //   }
+    // }
 
     // add arrow element and define arrow animation
     addArrow() {
       const arrow = new PIXI.Sprite(getRes('hint_arrow').texture)
-      arrow.anchor.y = 1
-      arrow.scale.y *= -1
-      arrow.y = 800
-      arrow.x = 100
+      if (this.isShow) {
+        arrow.y = 200
+        arrow.x = 100
+      } else {
+        arrow.anchor.y = 1
+        arrow.scale.y *= -1
+        arrow.y = 800
+        arrow.x = 100
+      }
+
+      this.arr = arrow
       this.addChild(arrow)
 
       tween({
       	from: {x: arrow.x, y: arrow.y},
-      	to: {x: 150, y: 830},
+      	to: {x: arrow.x + 50, y: arrow.y + 30},
       	duration: 500,
       	ease: easing.easeInOut,
       	flip: Infinity
@@ -72,45 +131,101 @@ export default class Menu extends PIXI.Container {
       const tips = new PIXI.Text('请选择一种食材', style)
       Helper.toCenterHorizatial(dw, tips)
       tips.y = 900
+      this.t = tips
       this.addChild(tips)
     }
 
     // add conveyor, set conveyor animation
     addConveyor() {
       let conveyorContainer = new PIXI.Container()
-      const item1 = new ConveyorView(1)
-      const item2 = new ConveyorView(2)
-      const item3 = new ConveyorView(3)
-      const item4 = new ConveyorView(4)
-      const item5 = new ConveyorView(5)
+      // generate item----------------------------
+      for (let i = 0; i < 5; i++) {
+        let item = new ConveyorView(i + 1)
+        this.itemArray.push(item)
+        Helper.setScale(0.5, item)
+        Helper.toBottom(dh, item)
+        item.x = item.width * i
+        conveyorContainer.addChild(item)
 
-      this.addClickListener(item1, item2, item3, item4, item5)
-      Helper.setScale(0.5, item1, item2, item3, item4, item5)
-      Helper.toBottom(dh, item1, item2, item3, item4, item5)
-      this.setOffset(true, item1.width, item1, item2, item3, item4, item5)
-      conveyorContainer.addChild(item1, item2, item3, item4, item5)
+        item.interactive = true
+        item.on('pointerup', () => {
+          this.showSauce()
+          this.addMaterial(i + 1)
+        })
+      }
       this.addChild(conveyorContainer)
 
+      // set animation----------------------------------
       const itemWidth = 250
       timeline([{track: 'x', from: itemWidth * 5, to: 0, duration: 5000, ease: easing.linear}], 
         {loop: Infinity, ease: easing.linear})
       .start((v) => {
-        item1.x = this.itemMoveCalculate(1, v, itemWidth)
-        item2.x = this.itemMoveCalculate(2, v, itemWidth)
-        item3.x = this.itemMoveCalculate(3, v, itemWidth)
-        item4.x = this.itemMoveCalculate(4, v, itemWidth)
-        item5.x = this.itemMoveCalculate(5, v, itemWidth)
+        for (let i = 0; i < this.itemArray.length; i++) {
+          this.itemArray[i].x = this.itemMoveCalculate((i + 1), v, itemWidth)
+        }
       })
     }
 
-    addClickListener(...sprites) {
-      for (let i = 0; i < sprites.length; i++) {
-        sprites[i].interactive = true
-        sprites[i].on('pointerup', () => {
-          console.log('click---')
-          alert(`current click is ${i+1}`)
-        })
-      }
+    addMaterial(id) {
+      const spineNames = ['spine_fish', 'spine_beaf', 'spine_frog', 'spine_mashroom', 'spine_spider']
+      if (this.curMaterial) this.dishContainer.removeChild(this.curMaterial)
+
+      const material = new PIXI.spine.Spine(getRes(spineNames[id - 1]).spineData)
+      Helper.setSkeleton(`${id}-1`, material)
+
+      this.dishContainer.addChild(material)
+      Helper.setScale(0.5, material)
+      material.y = -270
+      material.x = -60
+      this.curMaterial = material
+    }
+
+    showSauce() {
+      if (this.isShow) return
+      this.isShow = true
+      this.removeChild(this.arr, this.t)
+      this.addArrow()
+      tween({
+        from: {y: this.plate.y},
+        to: {y: 0},
+        duration: 300,
+        ease: easing.easeIn
+      })
+      .start({
+        update: v => {
+          this.plate.y = v.y
+        }
+      })
+
+      spring({
+        from: 0.3,
+        velocity: 0.6,
+        to: 0,
+        stiffness: 600,
+        mass: 6,
+        damping: 10
+      })
+      .start(v => this.ye.rotation = v)
+
+      spring({
+        from: 0.25,
+        velocity: 0.6,
+        to: 0,
+        stiffness: 600,
+        mass: 5,
+        damping: 15
+      })
+      .start(v => this.bl.rotation = v)
+
+      spring({
+        from: 0.15,
+        velocity: 0.6,
+        to: 0,
+        stiffness: 600,
+        mass: 8,
+        damping: 30
+      })
+      .start(v => this.gr.rotation = v)
     }
 
     itemMoveCalculate(id, v, itemWidth) {
@@ -118,24 +233,9 @@ export default class Menu extends PIXI.Container {
       if (posX < (-itemWidth)) posX = v.x + (id - 1) * itemWidth
       return posX
     }
-
-    // set offset for view array
-    setOffset(isX, offset, ...items) {
-      let index = 0
-      for (let item of items) {
-      	if (isX) {
-      	  item.x = offset * index
-      	} else {
-      	  item.y = offset * index
-      	}
-      	index ++
-      }
-    }
  }
 
- /*
-  single item object
- */
+ /*single item object*/
  class ConveyorView extends PIXI.Container {
    constructor(id) {
      super()
