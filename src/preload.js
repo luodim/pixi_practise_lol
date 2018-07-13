@@ -107,6 +107,8 @@ import spine_frog from './assets/spine/3-1_3-2.json'
 import spine_mashroom from './assets/spine/4-1_4-2_4-3.json'
 import spine_spider from './assets/spine/5-1.json'
 import spine_resting from './assets/spine/resting.json'
+import spine_frying from './assets/spine/frying.json'
+import spine_stirring from './assets/spine/stirring'
 
 const resources = {
   meat, meat2, meat3, beaf, beaf2, beaf3, frog, frog2, frog3, mashroom, mashroom2, mashroom3, spider, spider2, spider3,
@@ -142,6 +144,8 @@ export const preload = () => {
   loader.add('spine_mashroom', spine_mashroom, { metadata: { spineAtlasSuffix: '.conf' }})
   loader.add('spine_spider', spine_spider, { metadata: { spineAtlasSuffix: '.conf' }})
   loader.add('spine_resting', spine_resting, { metadata: { spineAtlasSuffix: '.conf' }})
+  loader.add('spine_frying', spine_frying, { metadata: { spineAtlasSuffix: '.conf' }})
+  loader.add('spine_stirring', spine_stirring, { metadata: { spineAtlasSuffix: '.conf' }})
   return loader
 }
 
